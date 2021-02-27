@@ -1,0 +1,326 @@
+{
+  "description": {
+    "X": [
+      "PassengerId",
+      "Pclass",
+      "Name",
+      "Gender",
+      "Age",
+      "SibSp",
+      "Parch",
+      "Ticket",
+      "Fare",
+      "Cabin",
+      "Embarked"
+    ],
+    "final_columns": [
+      "Pclass",
+      "Gender",
+      "Embarked",
+      "Cabin",
+      "CategoricalFare",
+      "Title",
+      "CategoricalAge",
+      "Single",
+      "SmallFamily",
+      "MedFamily",
+      "LargeFamily"
+    ],
+    "y": "Survived",
+    "metrics": "accuracy_score"
+  },
+  "operations": [
+    {
+      "operation_number": 1,
+      "operation_name": "columns_combination",
+      "params": {
+        "in_columns": [
+          "SibSp",
+          "Parch"
+        ],
+        "out_column": "FamilySize",
+        "coefficients": [
+          1,
+          1
+        ],
+        "bias": 1,
+        "method": "addition"
+      }
+    },
+    {
+      "operation_number": 2,
+      "operation_name": "fill_nans",
+      "params": {
+        "in_column": "Fare",
+        "method": "median"
+      }
+    },
+    {
+      "operation_number": 3,
+      "operation_name": "bins",
+      "params": {
+        "in_column": "Fare",
+        "in_column_categorical": "CategoricalFare",
+        "method": "qcut",
+        "bins_num": 7,
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 4,
+      "operation_name": "apply_regex",
+      "params": {
+        "in_column": "Name",
+        "out_column": "Title",
+        "method": "search",
+        "pattern": " ([A-Za-z]+)\\.",
+        "group": 1,
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 5,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Title",
+        "old_value": [
+          "Lady",
+          "Countess",
+          "Capt",
+          "Col",
+          "Don",
+          "Dr",
+          "Major",
+          "Rev",
+          "Sir",
+          "Jonkheer",
+          "Dona"
+        ],
+        "new_value": "Rare",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 6,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Title",
+        "old_value": [
+          "Mlle",
+          "Ms"
+        ],
+        "new_value": "Miss",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 7,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Title",
+        "old_value": "Mme",
+        "new_value": "Mrs",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 8,
+      "operation_name": "fill_nans",
+      "params": {
+        "in_column": "Age",
+        "method": "median"
+      }
+    },
+    {
+      "operation_number": 9,
+      "operation_name": "bins",
+      "params": {
+        "in_column": "Age",
+        "in_column_categorical": "CategoricalAge",
+        "method": "qcut",
+        "bins_num": 9,
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 10,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Cabin",
+        "new_value": "M",
+        "condition_column": "Cabin",
+        "condition": "equal",
+        "condition_value": "nones",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 11,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Cabin",
+        "old_value": "T",
+        "new_value": "A",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 12,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Cabin",
+        "old_value": [
+          "A",
+          "B",
+          "C"
+        ],
+        "new_value": "ABC",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 13,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Deck",
+        "old_value": [
+          "D",
+          "E"
+        ],
+        "new_value": "DE",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 14,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Deck",
+        "old_value": [
+          "F",
+          "G"
+        ],
+        "new_value": "FG",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 15,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Embarked",
+        "new_value": "S",
+        "condition_column": "Embarked",
+        "condition": "equal",
+        "condition_value": "nones",
+        "inplace": "True"
+      }
+    },
+    {
+      "operation_number": 16,
+      "operation_name": "fill_nans",
+      "params": {
+        "in_column": "Gender",
+        "method": "zero"
+      }
+    },
+    {
+      "operation_number": 17,
+      "operation_name": "fill_nans",
+      "params": {
+        "in_column": "Title",
+        "method": "zero"
+      }
+    },
+    {
+      "operation_number": 18,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "Single",
+        "new_value": 1,
+        "condition_column": "FamilySize",
+        "condition": "equal",
+        "condition_value": 1,
+        "default": 0,
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 19,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "SmallFamily",
+        "new_value": 1,
+        "condition_column": "FamilySize",
+        "condition": "equal",
+        "condition_value": 2,
+        "default": 0,
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 20,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "MedFamily",
+        "new_value": 1,
+        "condition_column": "FamilySize",
+        "condition": "equal",
+        "condition_value": [
+          3,
+          4
+        ],
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 21,
+      "operation_name": "replace",
+      "params": {
+        "in_column": "LargeFamily",
+        "new_value": 1,
+        "condition_column": "FamilySize",
+        "condition": "gte",
+        "condition_value": 5,
+        "default": 0,
+        "inplace": "False"
+      }
+    },
+    {
+      "operation_number": 22,
+      "operation_name": "encode_labels",
+      "params": {
+        "in_columns": "Gender"
+      }
+    },
+    {
+      "operation_number": 23,
+      "operation_name": "drop_columns",
+      "params": {
+        "in_columns": [
+          "Fare",
+          "Age",
+          "Name",
+          "FamilySize",
+          "Parch",
+          "SibSp",
+          "PassengerId",
+          "Ticket"
+        ]
+      }
+    },
+    {
+      "operation_number": 24,
+      "operation_name": "encode_labels",
+      "params": {
+        "in_columns": [
+          "Title",
+          "CategoricalFare",
+          "CategoricalAge",
+          "Cabin",
+          "Embarked"
+        ]
+      }
+    }
+  ]
+}
